@@ -22,9 +22,20 @@ const server = http.createServer((req,res) => {let filename=path.join(root,decod
  await page.locator('#envelope').click();await page.locator('#letter-paper').waitFor({state:'visible'});assert.match(await page.locator('#letter-paper').innerText(),/May Allah bless you/);await page.locator('#close-letter').click();assert.equal(await page.locator('#letter-paper').isVisible(),false);
  await page.locator('#gift').click();await page.locator('#cake-stage').waitFor({state:'visible'});assert.equal(await page.locator('.cake').evaluate(e=>e.classList.contains('lit')),true);await page.locator('#candle-action').click();assert.match(await page.locator('#wish-message').textContent(),/May all your wishes/);assert.equal(await page.locator('.cake').evaluate(e=>e.classList.contains('lit')),false);await page.locator('#cake-reset').click();assert.equal(await page.locator('#candle-action').textContent(),'Blow out the candles');
  await page.locator('#heart').click();assert.equal(await page.locator('#award').isVisible(),true);await page.locator('#replay').click();assert.equal(await page.locator('#gift-stage').isVisible(),true);assert.equal(await page.locator('#cake-stage').isVisible(),false);assert.equal(await page.locator('#award').isVisible(),false);
- for(const width of [360,390,768,1440]){await page.setViewportSize({width,height:900});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`overflow at ${width}`);}
+ for(const width of [320,360,390,430,768,1440]){await page.setViewportSize({width,height:900});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`overflow at ${width}`);}
  await page.setViewportSize({width:390,height:844});await page.emulateMedia({reducedMotion:'reduce'});await page.reload();await page.locator('body').click({position:{x:10,y:120}});await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));await page.screenshot({path:path.join(root,'test-results/mobile.png'),fullPage:true});assert.equal(await page.locator('html').evaluate(e=>e.classList.contains('motion-paused')),true);
  await page.locator('#gift').click();await page.locator('#candle-action').click();assert.equal(await page.locator('#balloons i').count(),0);
- assert.deepEqual(errors,[]);console.log('PASS: seven chapters, default sound, no photo placeholders, notes, envelope, cake, replay, four viewport widths, reduced motion, no console or network errors.');
+ for(const width of [320,390,430]) {
+ await page.setViewportSize({width,height:844});
+ await page.locator('#replay').click();
+ await page.locator('#envelope').click();await page.locator('#letter-paper').waitFor({state:'visible'});
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`letter overflow at ${width}`);
+ await page.locator('#close-letter').click();
+ await page.locator('#gift').click();await page.locator('#cake-stage').waitFor({state:'visible'});
+ assert.equal(await page.locator('.cake').evaluate(e=>e.classList.contains('lit')),true);
+ await page.locator('#candle-action').click();assert.match(await page.locator('#wish-message').textContent(),/May all your wishes/);
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`cake overflow at ${width}`);
+ }
+ assert.deepEqual(errors,[]);console.log('PASS: seven chapters, default sound, no photo placeholders, notes, envelope, cake, replay, six viewport widths and phone letter/cake/replay flows, reduced motion, no console or network errors.');
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});

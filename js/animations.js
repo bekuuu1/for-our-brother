@@ -23,3 +23,7 @@ function celebrate() {
   $('#balloons').replaceChildren();
   for (let i=0;i<9;i++) {const balloon=document.createElement('i');balloon.style.cssText=`--x:${i*12}%;--delay:${i*.15}s;--color:${['#d4af77','#638064','#f5efe6'][i%3]}`;balloon.addEventListener('animationend',()=>balloon.remove());$('#balloons').append(balloon);}
 }
+
+$('#begin').addEventListener('click', () => {
+  if (!motionPaused && !reducedMotion.matches && window.confetti) window.confetti({particleCount:100,spread:85,origin:{y:.35},colors:['#d4af77','#f5efe6','#b87864','#83a58d'],disableForReducedMotion:true});
+});

@@ -58,3 +58,6 @@
 @keyframes memory-rise{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 @media(prefers-reduced-motion:no-preference){.letter-paper{animation:soft-letter-pop 1050ms cubic-bezier(.22,1,.36,1) both}.film-frame{animation:film-float 8s ease-in-out infinite}.memory-orbit i,.emblem-ring{animation:orbit-turn 35s linear infinite}.memory-ribbon span{animation:memory-rise 4s ease-in-out infinite}.memory-ribbon span:nth-child(2n){animation-delay:-2s}.note{animation:note-sway 6s ease-in-out infinite}.note:nth-child(2n){animation-delay:-3s}.note:hover,.note:focus-visible{animation-play-state:paused}.gift:not(.open){animation:memory-rise 3s ease-in-out infinite}#cake-stage{animation:soft-letter-pop 900ms cubic-bezier(.22,1,.36,1) both}}
 .motion-paused .t-stagger-line{opacity:1;transform:none;filter:none}
+@keyframes balloon-sway{0%,100%{transform:rotate(-7deg) translateY(0)}50%{transform:rotate(7deg) translateY(-14px)}}
+@keyframes flag-flutter{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(7deg)}}
+@media(prefers-reduced-motion:no-preference){.party-balloons i{animation:balloon-sway 6s ease-in-out infinite}.party-balloons i:nth-child(2){animation-delay:-2s}.party-balloons i:nth-child(3){animation-delay:-4s}.birthday-garland i{animation:flag-flutter 4s ease-in-out infinite}.birthday-garland i:nth-child(even){animation-delay:-2s}}
