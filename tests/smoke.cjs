@@ -12,7 +12,7 @@ const server = http.createServer((req,res) => {let filename=path.join(root,decod
  try {
  const page=await browser.newPage({viewport:{width:1440,height:1000}});const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
  const url=process.env.TEST_URL||`http://127.0.0.1:${server.address().port}`;await page.goto(url);await page.evaluate(()=>document.fonts.ready);
- assert.equal(await page.locator('.chapter').count(),7);assert.equal(await page.locator('img').count(),0);assert.equal(await page.locator('#sound').getAttribute('aria-pressed'),'true');
+ assert.equal(await page.locator('.chapter').count(),7);assert.equal(await page.locator('.group-memory img').count(),1);await page.locator('.group-memory').scrollIntoViewIfNeeded();await page.waitForFunction(()=>document.querySelector('.group-memory img').naturalWidth>0);assert.equal(await page.locator('#sound').getAttribute('aria-pressed'),'true');
  for(const section of await page.locator('.chapter').all()){await section.scrollIntoViewIfNeeded();await page.waitForTimeout(850);}
  await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));await page.waitForTimeout(250);
  await page.screenshot({path:process.env.SCREENSHOT_PATH||path.join(root,'test-results/desktop.png'),fullPage:true});
@@ -36,6 +36,6 @@ const server = http.createServer((req,res) => {let filename=path.join(root,decod
  await page.locator('#candle-action').click();assert.match(await page.locator('#wish-message').textContent(),/May all your wishes/);
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`cake overflow at ${width}`);
  }
- assert.deepEqual(errors,[]);console.log('PASS: seven chapters, default sound, no photo placeholders, notes, envelope, cake, replay, six viewport widths and phone letter/cake/replay flows, reduced motion, no console or network errors.');
+ assert.deepEqual(errors,[]);console.log('PASS: seven chapters, default sound, group photo loading, notes, envelope, cake, replay, six viewport widths and phone letter/cake/replay flows, reduced motion, no console or network errors.');
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});

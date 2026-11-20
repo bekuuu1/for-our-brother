@@ -12,7 +12,7 @@ No build step or production package installation is needed. Open `index.html`, o
 
 ## Personalize
 
-- **Memories:** animated words replace the photo gallery; no photographs are required. Edit the ribbon in `index.html`.
+- **Memories:** the supplied group photo is in `assets/photos/together-at-home.jpeg`, displayed without cropping in Our Story. Edit its caption and the animated memory ribbon in `index.html`.
 - **Messages:** edit the chapter text and letter in `index.html`. Captions and memory notes are together in `js/main.js`.
 - **Music:** the default is an original quiet Web Audio melody. To use your own licensed recording, add it to `assets/music/` and set `film.music` in `js/main.js`. Sound is enabled by default and starts on the first click, tap, or keyboard interaction (browser autoplay policy). Mute remains respected until explicitly enabled again. The tab pauses audio when hidden. No microphone permission is required to blow out the candles.
 - **Colors and type:** edit the custom properties and font rules in `css/styles.css`. Fonts are self-hosted; licenses are in `assets/fonts/`.
