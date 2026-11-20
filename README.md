@@ -1,5 +1,9 @@
 # For Our Brother
 
+## [▶ View live demo](https://bekuuu1.github.io/for-our-brother/)
+
+Open the birthday film in your browser. No cloning, installation, or sign-in needed.
+
 A cinematic birthday film for **Emil Shaibek uulu (Emil Baike)**. Seven chapters, animated memory phrases, a heartfelt letter, an interactive gift and birthday cake, and bilingual closing credits.
 
 ## Run
