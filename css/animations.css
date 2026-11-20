@@ -3,3 +3,58 @@
 @media(prefers-reduced-motion:no-preference){.hero-copy{animation:paper-in 1s both}.hero-art{animation:paper-in 1.5s .25s both}.prologue p{animation:paper-in 1.3s both}.prologue p:nth-child(1){animation-delay:.4s}.prologue p:nth-child(2){animation-delay:1.4s}.prologue p:nth-child(3){animation-delay:2.4s}.prologue p:nth-child(4){animation-delay:3.4s}#particles i{animation:drift 7s var(--delay) ease-in-out infinite}.candles b{animation:flicker .8s infinite alternate}}
 .motion-paused *,.motion-paused *:before,.motion-paused *:after{animation-play-state:paused!important;transition:none!important}.motion-paused .reveal{opacity:1!important;transform:none!important}.motion-paused{scroll-behavior:auto}.motion-paused .hero-copy,.motion-paused .hero-art,.motion-paused .prologue p,.motion-paused .letter-paper{animation:none;opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.js-motion .reveal:not(.visible){opacity:1;transform:none}#balloons{display:none}}
+
+:root {
+  --stagger-dur: 500ms;
+  --stagger-distance: 12px;
+  --stagger-stagger: 40ms;
+  --stagger-blur: 3px;
+  --stagger-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Lines start translated down + blurred + invisible; .is-shown
+   on the parent flips them to their resting state. The second
+   line's transition-delay holds it back by --stagger-stagger
+   so the eye lands on the headline first. */
+.t-stagger-line {
+  display: block;
+  opacity: 0;
+  transform: translateY(var(--stagger-distance));
+  filter: blur(var(--stagger-blur));
+  transition:
+    opacity   var(--stagger-dur) var(--stagger-ease),
+    transform var(--stagger-dur) var(--stagger-ease),
+    filter    var(--stagger-dur) var(--stagger-ease);
+  will-change: transform, opacity, filter;
+}
+.t-stagger-line--2 { transition-delay: var(--stagger-stagger); }
+
+.t-stagger.is-shown .t-stagger-line {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+/* Exit decouples from the stagger: same fade for every line,
+   no Y return, no blur — so the disappearance reads as a
+   single quiet fade instead of a reverse reveal. */
+.t-stagger.is-hiding .t-stagger-line {
+  opacity: 0;
+  transform: translateY(0);
+  filter: blur(0);
+  transition:
+    opacity 200ms ease,
+    transform 0s linear,
+    filter 0s linear;
+  transition-delay: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-stagger-line { transition: none !important; }
+}
+@keyframes soft-letter-pop{0%{opacity:0;transform:translateY(55px) scale(.92) rotate(-1deg);filter:blur(3px)}65%{opacity:1;transform:translateY(-4px) scale(1.008) rotate(.2deg);filter:blur(0)}100%{opacity:1;transform:none;filter:blur(0)}}
+@keyframes film-float{0%,100%{transform:translateY(0) rotate(5deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+@keyframes orbit-turn{to{transform:rotate(360deg)}}
+@keyframes note-sway{0%,100%{transform:rotate(var(--rotation)) translateY(0)}50%{transform:rotate(calc(var(--rotation) + 1deg)) translateY(-7px)}}
+@keyframes memory-rise{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@media(prefers-reduced-motion:no-preference){.letter-paper{animation:soft-letter-pop 1050ms cubic-bezier(.22,1,.36,1) both}.film-frame{animation:film-float 8s ease-in-out infinite}.memory-orbit i,.emblem-ring{animation:orbit-turn 35s linear infinite}.memory-ribbon span{animation:memory-rise 4s ease-in-out infinite}.memory-ribbon span:nth-child(2n){animation-delay:-2s}.note{animation:note-sway 6s ease-in-out infinite}.note:nth-child(2n){animation-delay:-3s}.note:hover,.note:focus-visible{animation-play-state:paused}.gift:not(.open){animation:memory-rise 3s ease-in-out infinite}#cake-stage{animation:soft-letter-pop 900ms cubic-bezier(.22,1,.36,1) both}}
+.motion-paused .t-stagger-line{opacity:1;transform:none;filter:none}
